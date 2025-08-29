@@ -34,7 +34,7 @@ from util.easy_import import *
 from util.subject_fsaverage import SubjectFsaverage
 from read_raw import evokeds, ea
 
-subject_name = 'sub-1'
+subject_name = 'sub-1-ts'
 
 data_directory = Path(f'./data/fsaverage/{subject_name}')
 data_directory.mkdir(parents=True, exist_ok=True)
