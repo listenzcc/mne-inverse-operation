@@ -43,6 +43,20 @@ print(table)
 
 # %%
 
+
+def get_stc(evt, fix_scale=False):
+    stc = table.query(f'mode=="eeg" & evt=="{evt}"').iloc[0]['stc'].copy()
+    stc.subject = subject.subject
+
+    if fix_scale:
+        s = get_stc('T120')
+        max_s = np.max(s.data)
+        stc.data /= max_s
+
+    return stc
+
+
+# %%
 while True:
     evt = input('Input like T80 | T100 | T120 | Sham | q >> ')
     evt = evt.strip().title()
@@ -53,8 +67,7 @@ while True:
 
     print(evt)
 
-    stc = table.query(f'mode=="eeg" & evt=="{evt}"').iloc[0]['stc']
-    stc.subject = subject.subject
+    stc = get_stc(evt, fix_scale=True)
     print(stc)
 
     brain = stc.plot(
