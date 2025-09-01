@@ -57,31 +57,38 @@ def get_stc(evt, fix_scale=False):
 
 
 # %%
-# brain_kwargs = dict(alpha=0.8, background="white", cortex="low_contrast")
-# output_directory = Path('./img/ts')
-# output_directory.mkdir(exist_ok=True, parents=True)
+clim = {
+    'kind': 'value',
+    'lims': [0.0, 0.3, 0.6]
+}
 
-# for evt in tqdm(['T80', 'T100', 'T120', 'Sham']):
-#     stc = get_stc(evt, fix_scale=True)
-#     for t in tqdm(np.linspace(0, 0.21, 21, endpoint=False)):
-#         brain = stc.plot(
-#             initial_time=t,
-#             hemi="both",
-#             views=['dorsal'],
-#             surface='inflated',
-#             subjects_dir=SubjectFsaverage.subjects_dir,
-#             transparent=True,
-#             show_traces=False,
-#             brain_kwargs=brain_kwargs
-#         )
-#         brain.add_text(0.1, 0.9, f'{evt}-{t}', 'title', font_size=16)
+# %%
+brain_kwargs = dict(alpha=0.8, background="white", cortex="low_contrast")
+output_directory = Path('./img/ts')
+output_directory.mkdir(exist_ok=True, parents=True)
 
-#         # 1. 截图
-#         screenshot = brain.screenshot()
+for evt in tqdm(['T80', 'T100', 'T120', 'Sham']):
+    stc = get_stc(evt, fix_scale=True)
+    for t in tqdm(np.linspace(0, 0.21, 5, endpoint=False)):
+        brain = stc.plot(
+            initial_time=t,
+            hemi="both",
+            views=['dorsal'],
+            surface='inflated',
+            subjects_dir=SubjectFsaverage.subjects_dir,
+            transparent=True,
+            show_traces=False,
+            clim=clim,
+            brain_kwargs=brain_kwargs
+        )
+        brain.add_text(0.1, 0.9, f'{evt}-{t:0.2f}', 'title', font_size=16)
 
-#         # 2. 保存图像
-#         brain.save_image(output_directory / f'evt{evt}-t{t}.png')
-#         brain.close()
+        # 1. 截图
+        screenshot = brain.screenshot()
+
+        # 2. 保存图像
+        brain.save_image(output_directory / f'{evt=}-{t=:0.2f}.png')
+        brain.close()
 
 
 # %%
