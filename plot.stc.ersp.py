@@ -57,6 +57,34 @@ def get_stc(evt, fix_scale=False):
 
 
 # %%
+# brain_kwargs = dict(alpha=0.8, background="white", cortex="low_contrast")
+# output_directory = Path('./img/ersp')
+# output_directory.mkdir(exist_ok=True, parents=True)
+
+# for evt in tqdm(['T80', 'T100', 'T120', 'Sham']):
+#     stc = get_stc(evt, fix_scale=True)
+#     for t in tqdm(np.linspace(0, 0.21, 21, endpoint=False)):
+#         brain = stc.plot(
+#             initial_time=t,
+#             hemi="both",
+#             views=['dorsal'],
+#             surface='inflated',
+#             subjects_dir=SubjectFsaverage.subjects_dir,
+#             transparent=True,
+#             show_traces=False,
+#             brain_kwargs=brain_kwargs
+#         )
+#         brain.add_text(0.1, 0.9, f'{evt}-{t}', 'title', font_size=16)
+
+#         # 1. 截图
+#         screenshot = brain.screenshot()
+
+#         # 2. 保存图像
+#         brain.save_image(output_directory / f'evt{evt}-t{t}.png')
+#         brain.close()
+
+
+# %%
 while True:
     evt = input('Input like T80 | T100 | T120 | Sham | q >> ')
     evt = evt.strip().title()
@@ -70,16 +98,33 @@ while True:
     stc = get_stc(evt, fix_scale=True)
     print(stc)
 
+    # Plot with stc.plot
+    # <https://mne.tools/stable/generated/mne.SourceEstimate.html#mne.SourceEstimate.plot>
+    brain_kwargs = dict(alpha=0.8, background="white", cortex="low_contrast")
     brain = stc.plot(
-        initial_time=1,
+        initial_time=0,
         # hemi="split",
         hemi="both",
         views=['dorsal'],
+        # surface='pial',
+        surface='inflated',
         subjects_dir=SubjectFsaverage.subjects_dir,
         transparent=True,
-        title=evt,
+        # show_traces=False,
+        brain_kwargs=brain_kwargs
     )
+
+    # for hemi in ['lh', 'rh']:
+    #     brain.add_label("BA4a", hemi=hemi, color="green", borders=True)
+    #     brain.add_label("BA4p", hemi=hemi, color="blue", borders=True)
     brain.add_text(0.1, 0.9, evt, 'title', font_size=16)
+
+    print(dir(brain))
+    # keys = list(brain._picked_points.keys())
+    # for key in keys:
+    #     print(key)
+    #     brain._picked_points.pop(key)
+
 
 sys.exit(0)
 

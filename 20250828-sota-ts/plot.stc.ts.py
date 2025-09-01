@@ -35,7 +35,7 @@ def mk_stc_file_table(stc_files: list):
 # %%
 subject = SubjectFsaverage()
 
-data_directory = Path('./data/fsaverage/sub-1-ersp')
+data_directory = Path('./data/fsaverage/sub-1-ts')
 stc_files = find_stc_files('*.stc-lh.stc', data_directory)
 table = mk_stc_file_table(stc_files)
 print(stc_files)
@@ -58,7 +58,7 @@ def get_stc(evt, fix_scale=False):
 
 # %%
 brain_kwargs = dict(alpha=0.8, background="white", cortex="low_contrast")
-output_directory = Path('./img/ersp')
+output_directory = Path('./img/ts')
 output_directory.mkdir(exist_ok=True, parents=True)
 
 for evt in tqdm(['T80', 'T100', 'T120', 'Sham']):
@@ -117,20 +117,6 @@ while True:
     #     brain.add_label("BA4a", hemi=hemi, color="green", borders=True)
     #     brain.add_label("BA4p", hemi=hemi, color="blue", borders=True)
     brain.add_text(0.1, 0.9, evt, 'title', font_size=16)
-
-    # Plot with mne.viz.Brain
-    # brain_kwargs = dict(alpha=0.1, background="white", cortex="low_contrast")
-    # brain = mne.viz.Brain(subject.subject, **brain_kwargs)
-    # kwargs = dict(
-    #     fmin=stc.data.min(),
-    #     fmax=stc.data.max(),
-    #     alpha=0.25,
-    #     smoothing_steps="nearest",
-    #     time=stc.times,
-    # )
-    # brain.add_data(stc.lh_data, hemi="lh", vertices=stc.lh_vertno, **kwargs)
-    # brain.add_data(stc.rh_data, hemi="rh", vertices=stc.rh_vertno, **kwargs)
-    # brain.show()
 
 sys.exit(0)
 
