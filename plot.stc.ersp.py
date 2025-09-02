@@ -69,7 +69,8 @@ output_directory.mkdir(exist_ok=True, parents=True)
 
 for evt in tqdm(['T80', 'T100', 'T120', 'Sham']):
     stc = get_stc(evt, fix_scale=True)
-    for t in tqdm(np.linspace(0, 0.21, 5, endpoint=False)):
+    for t in tqdm([0, 30, 45, 60, 80, 100, 150, 200, 180]):
+        t = t / 1000
         brain = stc.plot(
             initial_time=t,
             hemi="both",
@@ -78,16 +79,17 @@ for evt in tqdm(['T80', 'T100', 'T120', 'Sham']):
             subjects_dir=SubjectFsaverage.subjects_dir,
             transparent=True,
             show_traces=False,
+            time_label=None,
             clim=clim,
             brain_kwargs=brain_kwargs
         )
-        brain.add_text(0.1, 0.9, f'{evt}-{t:0.2f}', 'title', font_size=16)
+        brain.add_text(0.1, 0.9, f'{evt}-{t:0.3f}', 'title', font_size=16)
 
         # 1. 截图
         screenshot = brain.screenshot()
 
         # 2. 保存图像
-        brain.save_image(output_directory / f'{evt=}-{t=:0.2f}.png')
+        brain.save_image(output_directory / f'{evt=}-{t=:0.3f}.png')
         brain.close()
 
 
@@ -120,6 +122,7 @@ while True:
         transparent=True,
         # show_traces=False,
         clim=clim,
+        # size=(600, 600),
         brain_kwargs=brain_kwargs
     )
 
