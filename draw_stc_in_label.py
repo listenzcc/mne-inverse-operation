@@ -53,6 +53,7 @@ if __name__ == '__main__':
     labels = label_data.query('annot == "onlyLabel"')['label']
     for mode in tqdm(['ersp', 'ts']):
         df = pd.DataFrame()
+        df2 = pd.DataFrame()
         for evt in tqdm(['T120', 'T100', 'T80', 'Sham']):
             p = data_directory.joinpath(
                 f'fsaverage/sub-1-{mode}/eeg-evt{evt}.stc')
@@ -61,12 +62,19 @@ if __name__ == '__main__':
                 m = np.max(stc.data)
             for label in labels:
                 _stc = stc.in_label(label)
+
                 d = np.mean(_stc.data, axis=0)/m
                 df['times'] = _stc.times
                 df['mode'] = mode
                 df[f'{evt}_{label.name}'] = d
+
+                d = np.std(_stc.data, axis=0)/m
+                df2['times'] = _stc.times
+                df2['mode'] = mode
+                df2[f'{evt}_{label.name}'] = d
         print(df)
         df.to_csv(data_directory.joinpath(f'{mode}.average.csv'))
+        df2.to_csv(data_directory.joinpath(f'{mode}.std.csv'))
 
     print(stc)
 

@@ -59,7 +59,7 @@ def get_stc(evt, fix_scale=False):
 # %%
 clim = {
     'kind': 'value',
-    'lims': [0.0, 0.3, 0.6]
+    'lims': [0.0, 0.2, 0.4]
 }
 
 # %%
@@ -69,7 +69,7 @@ output_directory.mkdir(exist_ok=True, parents=True)
 
 for evt in tqdm(['T80', 'T100', 'T120', 'Sham']):
     stc = get_stc(evt, fix_scale=True)
-    for t in tqdm([0, 30, 45, 60, 80, 100, 150, 200, 180]):
+    for t in tqdm([0, 30, 45, 60, 80, 100, 150, 180, 200]):
         t = t / 1000
         brain = stc.plot(
             initial_time=t,
