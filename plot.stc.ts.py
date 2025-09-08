@@ -63,34 +63,34 @@ clim = {
 }
 
 # %%
-brain_kwargs = dict(alpha=0.8, background="white", cortex="low_contrast")
-output_directory = Path('./img/ts')
-output_directory.mkdir(exist_ok=True, parents=True)
+# brain_kwargs = dict(alpha=0.8, background="white", cortex="low_contrast")
+# output_directory = Path('./img/ts')
+# output_directory.mkdir(exist_ok=True, parents=True)
 
-for evt in tqdm(['T80', 'T100', 'T120', 'Sham']):
-    stc = get_stc(evt, fix_scale=True)
-    for t in tqdm([0, 30, 45, 60, 80, 100, 150, 180, 200]):
-        t = t / 1000
-        brain = stc.plot(
-            initial_time=t,
-            hemi="both",
-            views=['dorsal'],
-            surface='inflated',
-            subjects_dir=SubjectFsaverage.subjects_dir,
-            transparent=True,
-            show_traces=False,
-            time_label=None,
-            clim=clim,
-            brain_kwargs=brain_kwargs
-        )
-        brain.add_text(0.1, 0.9, f'{evt}-{t:0.3f}', 'title', font_size=16)
+# for evt in tqdm(['T80', 'T100', 'T120', 'Sham']):
+#     stc = get_stc(evt, fix_scale=True)
+#     for t in tqdm([0, 30, 45, 60, 80, 100, 150, 180, 200]):
+#         t = t / 1000
+#         brain = stc.plot(
+#             initial_time=t,
+#             hemi="both",
+#             views=['dorsal'],
+#             surface='inflated',
+#             subjects_dir=SubjectFsaverage.subjects_dir,
+#             transparent=True,
+#             show_traces=False,
+#             time_label=None,
+#             clim=clim,
+#             brain_kwargs=brain_kwargs
+#         )
+#         brain.add_text(0.1, 0.9, f'{evt}-{t:0.3f}', 'title', font_size=16)
 
-        # 1. 截图
-        screenshot = brain.screenshot()
+#         # 1. 截图
+#         screenshot = brain.screenshot()
 
-        # 2. 保存图像
-        brain.save_image(output_directory / f'{evt=}-{t=:0.3f}.png')
-        brain.close()
+#         # 2. 保存图像
+#         brain.save_image(output_directory / f'{evt=}-{t=:0.3f}.png')
+#         brain.close()
 
 
 # %%
@@ -119,7 +119,9 @@ while True:
         surface='inflated',
         subjects_dir=SubjectFsaverage.subjects_dir,
         transparent=True,
-        show_traces=False,
+        clim=clim,
+        # show_traces=False,
+        # time_label=None,
         brain_kwargs=brain_kwargs
     )
     # for hemi in ['lh', 'rh']:

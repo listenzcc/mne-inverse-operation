@@ -120,24 +120,18 @@ while True:
         surface='inflated',
         subjects_dir=SubjectFsaverage.subjects_dir,
         transparent=True,
-        # show_traces=False,
         clim=clim,
+        # show_traces=False,
         # time_label=None,
-        # size=(600, 600),
         brain_kwargs=brain_kwargs
     )
 
-    for hemi in ['lh', 'rh']:
-        # brain.add_label("BA4a", hemi=hemi, color="green", borders=True)
-        brain.add_label("BA4p", hemi=hemi, color="blue", borders=True)
+    # for label_name, color in [('BA3a', 'blue'), ('BA3b', 'red'), ('BA1', 'green')]:
+    #     for hemi in ['lh', 'rh']:
+    #         # brain.add_label("BA4a", hemi=hemi, color="green", borders=True)
+    #         # brain.add_label("BA4p", hemi=hemi, color="blue", borders=True)
+    #         brain.add_label(label_name, hemi=hemi, color=color, borders=True)
     brain.add_text(0.1, 0.9, evt, 'title', font_size=16)
-
-    print(dir(brain))
-    # keys = list(brain._picked_points.keys())
-    # for key in keys:
-    #     print(key)
-    #     brain._picked_points.pop(key)
-
 
 sys.exit(0)
 
